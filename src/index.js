@@ -1,17 +1,22 @@
-import { compose, pipe } from 'lodash/fp';
+import store from './store';
+import { bugAdded, bugRemoved, bugResolved } from './actions';
 
+// UI layer subscribe to the store
+const unsubscribe = store.subscribe(() => {
+    console.log('Store changed!', store.getState());
+});
 
-let input = ' JS ';
-const trim = str => str.trim();
-const toLowerCase = str => str.toLowerCase();
-const wrap = type => str => `<${type}>${str}</${type}>`; // currying
-// const result = wrapInDiv(toLowerCase(trim(input)));
+// state = reducer(state, action); internal state of the store
+// notify the subscribers
 
-// compose is higher order function
-// const transform = compose(wrapInDiv, toLowerCase, trim);
+store.dispatch(bugAdded('Bug 1'));
 
-// pipe helps read left to right, input of left goes to the right and so on
-const transform = pipe(trim, toLowerCase, wrap('div')); // <div>js</div>
+// console.log(store.getState()); // [{description: "Bug1", id: 1, resolved: false}]
 
-console.log(transform(input));
+store.dispatch(bugResolved(1));
 
+unsubscribe();
+
+// store.dispatch(bugRemoved(1));
+
+console.log(store.getState()); // []
