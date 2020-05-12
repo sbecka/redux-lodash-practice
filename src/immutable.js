@@ -1,3 +1,5 @@
+import { Map } from 'immutable';
+
 // immutability practice objects
 const person = { name: 'John' };
 const person2 = { 
@@ -58,3 +60,20 @@ console.log(removed);
 // Updating
 const update = numbers.map(n => n === 2 ? 20 : n);
 console.log(update);
+
+// learning Immutable library
+
+// Map, hashmap data structure is immutable
+let book = Map({ title: 'Harry Potter' });
+
+function publish(book) {
+    // set()
+    // creates a new object
+    return book.set('isPublished', true);
+}
+
+console.log(book.get('title')); // need to use get()
+console.log(book.toJS()); // returns JS object { title: 'Harry Potter' }
+
+book = publish(book); // reassign 
+console.log(book.toJS()); // to equal { title: 'Harry Potter', isPublished: true }
