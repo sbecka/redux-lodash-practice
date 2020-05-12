@@ -1,4 +1,5 @@
 import { Map } from 'immutable';
+import { produce } from 'immer';
 
 // immutability practice objects
 const person = { name: 'John' };
@@ -77,3 +78,19 @@ console.log(book.toJS()); // returns JS object { title: 'Harry Potter' }
 
 book = publish(book); // reassign 
 console.log(book.toJS()); // to equal { title: 'Harry Potter', isPublished: true }
+
+// learning Immer library
+
+let book2 = { title: 'Narnia' };
+
+function publish(book) {
+    // 1st arg is intial state of object
+    // 2nd records the changes made to the initial object
+    return produce(book, draftBook => {
+        // can write mutating code
+        draftBook.isPublished = true;
+    });
+}
+
+let upBook = publish(book2);
+console.log('new', upBook);
